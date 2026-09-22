@@ -8,13 +8,10 @@ on:
   workflow_dispatch:
 
 jobs:
-
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Deploy on Ubuntu server
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -26,6 +23,10 @@ jobs:
           script: |
             set -e
 
+            # Charger Bun dans le PATH
+            export BUN_INSTALL="$HOME/.bun"
+            export PATH="$BUN_INSTALL/bin:$PATH"
+
             echo "======================================"
             echo "Début du déploiement"
             echo "======================================"
@@ -34,7 +35,7 @@ jobs:
 
             echo "Mise à jour du code..."
             git pull origin
-            
+
             echo "Installation des dépendances..."
             bun ci
 
